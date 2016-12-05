@@ -1,0 +1,143 @@
+<html>
+  <head>
+    <script type="text/javascript" src="jsPlumb-2.2.6.js"></script>
+    <script>
+      /* Build a PERT-ish activity window for the schedule activities. */
+      function buildActivity(es, id, ls, sl, desc, ef, dur, lf) {
+        var crit = "";
+        if(sl == 0) {
+          crit = " act_critcal";
+        }
+        document.write('<div class="act_banner">');
+        document.write(id);
+        document.write('</div>');
+        document.write('<div class="act_row">');
+        document.write('<div class="activity act_narrow">' + es   + '</div>');
+        document.write('<div class="activity act_wide act_id">&nbsp;</div>');
+        document.write('<div class="activity act_narrow">' + ls   + '</div>');
+        document.write('</div>');
+        document.write('<div class="act_row">');
+        document.write('<div class="activity act_narrow' + crit +'">' + sl   + '</div>');
+        document.write('<div class="activity act_desc">'   + desc + '</div>');
+        document.write('</div>');
+        document.write('<div class="act_row">');
+        document.write('<div class="activity act_narrow">' + ef   + '</div>');
+        document.write('<div class="activity act_wide act_duration">'   + dur  + '</div>');
+        document.write('<div class="activity act_narrow">' + lf   + '</div>');
+        document.write('</div>');
+      }
+    </script>
+    <style>
+      #diagramContainer {
+        position: relative;
+      }
+      .item {
+        position: absolute;
+        width: 131px;
+        float: left;
+      }
+      .activity {
+        font-size: 0.7em;
+        border: 1px dotted #386890;
+        float: left;
+        word-wrap: break-word;
+        background-color: #eee;
+      }
+      .act_banner {
+        text-align: center;
+        font-style: italic;
+        color: white;
+        background: linear-gradient(lightblue, #386890);
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+        padding-left: 4px;
+        padding-right: 4px;
+        overflow-wrap: break-word;
+      }
+      .act_narrow {
+        width: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .act_wide {
+        width: 65px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .act_desc {
+        width: 97px;
+        min-height: 40px;
+      }
+      .act_row {
+        float:left;
+        display: flex;
+      }
+      .act_id {
+      }
+      .act_duration {
+        color: steelblue;
+      }
+      .act_critcal {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+
+
+    <div id="diagramContainer">
+      <div id="jobA" class="item" style="left: 0px; top: 0px;">
+        <script>buildActivity(0, "jobA", 10, 0, "A long description for various things and testing.  It should be noted that this is purposely trying to break things and I like to write in crayons.  K thx.", 0, 10, 10);</script>
+      </div>
+      <div id="jobB" class="item" style="left: 200px; top: 0px;">
+        <script>buildActivity(0, "jobB", 99999, 2, "Short Desc...", 5, 1662, 25);</script>
+      </div>
+      <div id="jobC" class="item" style="left: 200px; top: 200px;">
+        <script>buildActivity(0, "jobC", 120, 0, "a very longwordthatdoesnotwrapwell along with others.", 0, 10, 10);</script>
+      </div>
+      <div id="jobD" class="item" style="left: 400px; top: 0px;">
+        <script>buildActivity(0, "jobD", 120, 10, "a very lon ord hatd  esn otwr apwell along with others.", 0, 10, 10);</script>
+      </div>
+      <div id="jobE" class="item" style="left: 400px; top: 200px;">
+        <script>buildActivity(0, "jobE", 120, 0, "a well along with others.", 0, 10, 10);</script>
+      </div>
+      <div id="long_job_name_because_yea" class="item" style="left: 600px; top: 0px;">
+        <script>buildActivity(0, "long_job_name_because_yea", 120, 0, "Fortunately, a short description.", 0, 10, 10);</script>
+      </div>
+    </div>
+
+    <script>
+      /* The following is all plumbing related. */
+      var line_style = {
+        anchor:["Perimeter", {shape: "Square", anchorCount:32}],
+        detachable: false,
+        endpoint:[ "Rectangle", { width:1, height:1 } ],
+        overlays:[
+          ["Arrow", {location:-1, width:10, length:14 } ],
+        ],
+      }
+
+      function snapto(a, b, color) {
+        jsPlumb.connect({
+          source:a,
+          target:b,
+          paintStyle:{ strokeWidth:2, stroke:color },
+        }, line_style);
+        jsPlumb.draggable(a);
+        jsPlumb.draggable(b);
+      }
+      jsPlumb.ready(function() {
+        jsPlumb.setContainer("diagramContainer");
+        jsPlumb.Defaults.Connector = [ "Flowchart", { stub: [10, 10], midpoint: 0.0001, cornerRadius: 1.5 } ];
+        snapto("jobA", "jobB", 'lightblue');
+        snapto("jobA", "jobC", 'lightblue');
+        snapto("jobB", "jobD", 'lightblue');
+        snapto("jobC", "jobE", 'lightblue');
+        snapto("jobE", "long_job_name_because_yea", "lightblue");
+        snapto("jobD", "long_job_name_because_yea", "lightblue");
+      });
+    </script>
+  </body>
+</html>
