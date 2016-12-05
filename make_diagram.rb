@@ -42,9 +42,7 @@ abort("The following jobs are either missing a duration or have a duration of ze
 @completed = []
 @current = {}
 left=0
-LEFT_SPACING=200
 top=0
-TOP_SPACING=200
 while ! (@schedule.keys - @completed).empty?
   # Find all of the jobs who's dependencies have already been processed.
   @current = @schedule.select { |job,attributes| (attributes["dependencies"] - @completed).empty? && !@completed.include?(job) }
@@ -54,7 +52,7 @@ while ! (@schedule.keys - @completed).empty?
   @completed.push(@current.keys).flatten!
   # Assign the correct 'left' value for horizontal positioning later.
   @current.keys.each {|job| @schedule[job]["left"] = left }
-  left = left + LEFT_SPACING
+  left = left + 1
   # Calculate the appropriate 'top' value for vertical positioning later, for each job.
   tops_used = []
   @current.map {|job, attributes|
@@ -63,9 +61,14 @@ while ! (@schedule.keys - @completed).empty?
     lowest_top = 0
     predicates.each {|predicate| lowest_top = @schedule[predicate]["top"]  if @schedule[predicate].has_key?("top")}
     # -- Now try to assign the lowest top value, incrementing if spaces are already taken.
-    while tops_used.include?(lowest_top) ; lowest_top = lowest_top + TOP_SPACING ; end
+    while tops_used.include?(lowest_top) ; lowest_top = lowest_top + 1 ; end
     @schedule[job]["top"] = lowest_top
     tops_used.push(lowest_top)
     puts "Job #{job} appears to have these predicates: #{predicates} with a lowest_top of: #{lowest_top}  and a left of: #{left}"
   }
 end
+
+
+# Now build the actual HTML file.
+LEFT_SPACING=200
+TOP_SPACING=200
