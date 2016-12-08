@@ -68,8 +68,11 @@ while ! (@schedule.keys - @completed).empty?
     attributes["dependencies"].each {|dep| early_start = @schedule[dep]["early_finish"]  if @schedule[dep].has_key?("early_finish") && early_start < @schedule[dep]["early_finish"] }
     @schedule[job]["early_start"] = early_start
     @schedule[job]["early_finish"] = early_start + attributes["duration"]
-    longest_finish = early_start + attributes["duration"]  if longest_finish < early_start + attributes["duration"]
-    # -- LS, LF, and Slack require all ES/EF to be finished.  So we do that in a loop below.
+    # -- LS, LF, and Slack can be calculated for all endpoints, and should be.  Otherwise they're found in the loop below.
+    next unless @schedule.select{|s_job,s_attributes| s_attributes["dependencies"].include?(job) }.keys.empty?
+    @schedule[job]["late_finish"] = @schedule[job]["early_finish"]
+    @schedule[job]["late_start"] = @schedule[job]["late_finish"] - attributes["duration"]
+    @schedule[job]["slack"] = @schedule[job]["late_start"] - @schedule[job]["early_start"]
   }
 end
 
@@ -79,26 +82,31 @@ while ! @unfinished.keys.empty?
   # Find all jobs that aren't a dependency for any remaining jobs in the completed array.
   @current = @unfinished.select{|job,attributes| @unfinished.select{|s_job,s_attributes| s_attributes["dependencies"].include?(job) }.keys.empty? }
   abort("Didn't find any jobs to work with to calculate late start and finish.  This shouldn't happen.") if @current.keys.empty?
-  #puts "Working with #{@current.keys} now.\n"
   # Calculate the actual values for each currently available task, then remove it from the unfinished hash.
-  next_longest_finish = longest_finish
   @current.map {|job, attributes|
-    @schedule[job]["late_finish"] = longest_finish
-    @schedule[job]["late_start"] = longest_finish - attributes["duration"]
+    if attributes.has_key?("late_finish")
+      @unfinished.delete(job)
+      next
+    end
+    soonest_late_start = 0
+    @schedule.select{|s_job,s_attributes| s_attributes["dependencies"].include?(job)}.each {|s_job,s_attributes|
+      soonest_late_start = s_attributes["late_start"] if soonest_late_start == 0 || soonest_late_start > s_attributes["late_start"]
+    }
+    @schedule[job]["late_finish"] = soonest_late_start
+    @schedule[job]["late_start"] = @schedule[job]["late_finish"] - attributes["duration"]
     @schedule[job]["slack"] = @schedule[job]["late_start"] - @schedule[job]["early_start"]
-    next_longest_finish = @schedule[job]["late_start"]  if @schedule[job]["late_start"] < next_longest_finish
     @unfinished.delete(job)
   }
-  longest_finish = next_longest_finish
 end
 
+puts ""
 @schedule.map {|job, attributes|
   puts "Job #{job}"
   puts "  dependencies: #{@schedule[job]['dependencies']}"
-  puts "  Top/Left    : #{@schedule[job]['top']}/#{@schedule[job]['left']}"
-  puts "  ES/Dur/EF   : #{@schedule[job]['early_start']}  #{@schedule[job]['duration']}  #{@schedule[job]['early_finish']}"
+  #puts "  Top/Left    : #{@schedule[job]['top']}/#{@schedule[job]['left']}"
+  puts "  ES/Dur/EF   : #{@schedule[job]['early_start']}       #{@schedule[job]['early_finish']}"
   puts "  Slack       : #{@schedule[job]['slack']}"
-  puts "  EF/Dur/LF   : #{@schedule[job]['early_finish']}  #{@schedule[job]['duration']}  #{@schedule[job]['late_finish']}"
+  puts "  EF/Dur/LF   : #{@schedule[job]['late_start']}  #{@schedule[job]['duration']}  #{@schedule[job]['late_finish']}"
 }
 
 # Now build the actual HTML file.
