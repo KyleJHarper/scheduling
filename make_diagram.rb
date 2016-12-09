@@ -1,26 +1,11 @@
 #!/usr/bin/ruby
 
-# Build a hash to emulate what we would get from Puppet.
-@schedule = {
-  "jobA" => {"duration" => 15,   "dependencies" => ["jobX"],         "description" => "yar matey"},
-  "jobB" => {"duration" => 40,   "dependencies" => ["jobA"],         "description" => "this is another job"},
-  "jobC" => {"duration" => 9000, "dependencies" => ["jobA"],         "description" => "this job containsareallylongwordthatdoesntbreasily but we'll use it anyway"},
-  "jobD" => {"duration" => 30,   "dependencies" => ["jobB"],         "description" => "here we go loopty loooo"},
-  "jobE" => {"duration" => 25,   "dependencies" => ["jobC"],         "description" => "I am another job on another path"},
-  "jobF" => {"duration" => 115,  "dependencies" => ["jobD", "jobE"], "description" => "I am a merge event"},
-  "jobG" => {"duration" => 95,   "dependencies" => ["jobD"],         "description" => "I continue on"},
-  "jobH" => {"duration" => 45,   "dependencies" => ["jobG"],         "description" => "This becomes a seconardy end point"},
-  "jobI" => {"duration" => 20,   "dependencies" => ["jobF", "jobH"], "description" => "This becomes another endpoint"},
+# Load YAML and the data.
+require 'yaml'
+@data = YAML.load_file('data.yaml')
+@schedule = @data["schedule"]
+puts @schedule
 
-  # Debugging jobs. They trigger failures (on purpose).
-  # "jobP" => {"duration" => 15,   "dependencies" => [],               "description" => ""},   # 1. Duplicate job name
-  # "jobQ" => {"duration" => 15,   "dependencies" => ["jobQ"],         "description" => ""},   # 2. Dependency of self
-  # "jobR" => {"duration" => 15,   "dependencies" => ["nope"],         "description" => ""},   # 5. Dependencies must exist in schedule.
-  # "jobS" => {                    "dependencies" => [],               "description" => ""},   # 6. Duration key must exist.
-  # "jobT" => {"duration" => 0,    "dependencies" => [],               "description" => ""},   # 6. Duration must be greater than 0.
-
-  "jobX" => {"duration" => 15,   "dependencies" => [],               "description" => "The real initial job to ensure hash order doesn't matter"},
-}
 # Validate the schedule...
 # 1. Kill duplicates because users make me cry.
 @duplicate_jobs = @schedule.keys.detect {|k| @schedule.keys.count(k) > 1}
