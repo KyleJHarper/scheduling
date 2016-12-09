@@ -46,7 +46,7 @@ schedule:
     duration: 20
     dependencies:
     - jobF
-    - jobH
+#    - jobH
     description: This becomes another endpoint
   jobX:
     duration: 15

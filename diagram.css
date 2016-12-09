@@ -1,0 +1,54 @@
+#diagramContainer {
+  position: relative;
+}
+.item {
+  position: absolute;
+  width: 131px;
+  float: left;
+}
+.activity {
+  font-size: 0.7em;
+  border: 1px dotted #386890;
+  float: left;
+  word-wrap: break-word;
+  background-color: #eee;
+}
+.act_banner {
+  text-align: center;
+  font-style: italic;
+  color: white;
+  background: linear-gradient(lightblue, #386890);
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  padding-left: 4px;
+  padding-right: 4px;
+  overflow-wrap: break-word;
+}
+.act_narrow {
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.act_wide {
+  width: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.act_desc {
+  width: 97px;
+  min-height: 40px;
+}
+.act_row {
+  float:left;
+  display: flex;
+}
+.act_id {
+}
+.act_duration {
+  color: steelblue;
+}
+.act_critcal {
+  color: red;
+}

@@ -1,0 +1,197 @@
+<html>
+  <head>
+    <script type="text/javascript" src="jsPlumb-2.2.6.js"></script>
+    <script type="text/javascript" src="diagram.js"></script>
+    <link rel="stylesheet" type="text/css" href="diagram.css" media="screen" />
+  </head>
+  <body>
+    <div id="diagramContainer">
+      <div id='jobA' class='item' style='left: 200px; top: 0px;'>
+        <div class='act_banner'>jobA</div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>15</div>
+          <div class='activity act_wide act_id'>&nbsp;</div>
+          <div class='activity act_narrow'>15</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow  act_critcal'>0</div>
+          <div class='activity act_desc'>yar matey</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>30</div>
+          <div class='activity act_wide act_id'>15</div>
+          <div class='activity act_narrow'>30</div>
+        </div>
+      </div>
+      <div id='jobB' class='item' style='left: 400px; top: 0px;'>
+        <div class='act_banner'>jobB</div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>30</div>
+          <div class='activity act_wide act_id'>&nbsp;</div>
+          <div class='activity act_narrow'>30</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow  act_critcal'>0</div>
+          <div class='activity act_desc'>this is another job</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>70</div>
+          <div class='activity act_wide act_id'>40</div>
+          <div class='activity act_narrow'>70</div>
+        </div>
+      </div>
+      <div id='jobC' class='item' style='left: 400px; top: 200px;'>
+        <div class='act_banner'>jobC</div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>30</div>
+          <div class='activity act_wide act_id'>&nbsp;</div>
+          <div class='activity act_narrow'>30</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow  act_critcal'>0</div>
+          <div class='activity act_desc'>this job containsareallylongwordthatdoesntbreasily but we'll use it anyway</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>9030</div>
+          <div class='activity act_wide act_id'>9000</div>
+          <div class='activity act_narrow'>9030</div>
+        </div>
+      </div>
+      <div id='jobD' class='item' style='left: 600px; top: 0px;'>
+        <div class='act_banner'>jobD</div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>70</div>
+          <div class='activity act_wide act_id'>&nbsp;</div>
+          <div class='activity act_narrow'>70</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow  act_critcal'>0</div>
+          <div class='activity act_desc'>here we go loopty loooo</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>100</div>
+          <div class='activity act_wide act_id'>30</div>
+          <div class='activity act_narrow'>100</div>
+        </div>
+      </div>
+      <div id='jobE' class='item' style='left: 600px; top: 200px;'>
+        <div class='act_banner'>jobE</div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>9030</div>
+          <div class='activity act_wide act_id'>&nbsp;</div>
+          <div class='activity act_narrow'>9030</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow  act_critcal'>0</div>
+          <div class='activity act_desc'>I am another job on another path</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>9055</div>
+          <div class='activity act_wide act_id'>25</div>
+          <div class='activity act_narrow'>9055</div>
+        </div>
+      </div>
+      <div id='jobF' class='item' style='left: 800px; top: 200px;'>
+        <div class='act_banner'>jobF</div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>9055</div>
+          <div class='activity act_wide act_id'>&nbsp;</div>
+          <div class='activity act_narrow'>9055</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow  act_critcal'>0</div>
+          <div class='activity act_desc'>I am a merge event</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>9170</div>
+          <div class='activity act_wide act_id'>115</div>
+          <div class='activity act_narrow'>9170</div>
+        </div>
+      </div>
+      <div id='jobG' class='item' style='left: 800px; top: 0px;'>
+        <div class='act_banner'>jobG</div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>100</div>
+          <div class='activity act_wide act_id'>&nbsp;</div>
+          <div class='activity act_narrow'>100</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow  act_critcal'>0</div>
+          <div class='activity act_desc'>I continue on</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>195</div>
+          <div class='activity act_wide act_id'>95</div>
+          <div class='activity act_narrow'>195</div>
+        </div>
+      </div>
+      <div id='jobH' class='item' style='left: 1000px; top: 0px;'>
+        <div class='act_banner'>jobH</div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>195</div>
+          <div class='activity act_wide act_id'>&nbsp;</div>
+          <div class='activity act_narrow'>195</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow  act_critcal'>0</div>
+          <div class='activity act_desc'>This becomes a seconardy end point</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>240</div>
+          <div class='activity act_wide act_id'>45</div>
+          <div class='activity act_narrow'>240</div>
+        </div>
+      </div>
+      <div id='jobI' class='item' style='left: 1000px; top: 200px;'>
+        <div class='act_banner'>jobI</div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>9170</div>
+          <div class='activity act_wide act_id'>&nbsp;</div>
+          <div class='activity act_narrow'>9170</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow  act_critcal'>0</div>
+          <div class='activity act_desc'>This becomes another endpoint</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>9190</div>
+          <div class='activity act_wide act_id'>20</div>
+          <div class='activity act_narrow'>9190</div>
+        </div>
+      </div>
+      <div id='jobX' class='item' style='left: 0px; top: 0px;'>
+        <div class='act_banner'>jobX</div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>0</div>
+          <div class='activity act_wide act_id'>&nbsp;</div>
+          <div class='activity act_narrow'>0</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow  act_critcal'>0</div>
+          <div class='activity act_desc'>The real initial job to ensure hash order doesn't matter</div>
+        </div>
+        <div class='act_row'>
+          <div class='activity act_narrow'>15</div>
+          <div class='activity act_wide act_id'>15</div>
+          <div class='activity act_narrow'>15</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      jsPlumb.ready(function() {
+        jsPlumb.setContainer("diagramContainer");
+        jsPlumb.Defaults.Connector = [ "Flowchart", { stub: [10, 10], midpoint: 0.0001, cornerRadius: 1.5 } ];
+        snapto('jobX', 'jobA', 'red')
+        snapto('jobA', 'jobB', 'red')
+        snapto('jobA', 'jobC', 'red')
+        snapto('jobB', 'jobD', 'red')
+        snapto('jobC', 'jobE', 'red')
+        snapto('jobD', 'jobF', 'red')
+        snapto('jobE', 'jobF', 'red')
+        snapto('jobD', 'jobG', 'red')
+        snapto('jobG', 'jobH', 'red')
+        snapto('jobF', 'jobI', 'red')
+      });
+    </script>
+  </body>
+</html>
