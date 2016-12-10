@@ -12,14 +12,14 @@ def printActivity(job, attributes)
   puts "        <div class='act_row'>"
   puts "          <div class='activity act_narrow'>#{attributes['early_start']}</div>"
   puts "          <div class='activity act_wide act_id'>&nbsp;</div>"
-  puts "          <div class='activity act_narrow'>#{attributes['late_start']}</div>"
+  puts "          <div class='activity act_narrow'>#{attributes['early_finish']}</div>"
   puts "        </div>"
   puts "        <div class='act_row'>"
   puts "          <div class='activity act_narrow #{crit}'>#{attributes['slack']}</div>"
   puts "          <div class='activity act_desc'>#{attributes['description']}</div>"
   puts "        </div>"
   puts "        <div class='act_row'>"
-  puts "          <div class='activity act_narrow'>#{attributes['early_finish']}</div>"
+  puts "          <div class='activity act_narrow'>#{attributes['late_start']}</div>"
   puts "          <div class='activity act_wide act_id'>#{attributes['duration']}</div>"
   puts "          <div class='activity act_narrow'>#{attributes['late_finish']}</div>"
   puts "        </div>"
@@ -51,10 +51,11 @@ abort("The following jobs are either missing a duration or have a duration of ze
 
 # Compute the top and left values for display purposes, then calculate the early start and early finish values.
 @completed = []
+@endpoints = []
 @current = {}
 left=0
 top=0
-longest_finish = 0
+biggest_early_finish = 0
 while ! (@schedule.keys - @completed).empty?
   # Find all of the jobs who's dependencies have already been processed.
   @current = @schedule.select { |job,attributes| (attributes["dependencies"] - @completed).empty? && !@completed.include?(job) }
@@ -79,13 +80,18 @@ while ! (@schedule.keys - @completed).empty?
     attributes["dependencies"].each {|dep| early_start = @schedule[dep]["early_finish"]  if @schedule[dep].has_key?("early_finish") && early_start < @schedule[dep]["early_finish"] }
     @schedule[job]["early_start"] = early_start
     @schedule[job]["early_finish"] = early_start + attributes["duration"]
-    # -- LS, LF, and Slack can be calculated for all endpoints, and should be.  Otherwise they're found in the loop below.
-    next unless @schedule.select{|s_job,s_attributes| s_attributes["dependencies"].include?(job) }.keys.empty?
-    @schedule[job]["late_finish"] = @schedule[job]["early_finish"]
-    @schedule[job]["late_start"] = @schedule[job]["late_finish"] - attributes["duration"]
-    @schedule[job]["slack"] = @schedule[job]["late_start"] - @schedule[job]["early_start"]
+    biggest_early_finish = @schedule[job]["early_finish"]  if biggest_early_finish < @schedule[job]["early_finish"]
+    # -- Track the endpoints so we can assign the biggest early finish later to begin reverse traversing.
+    @endpoints.push(job)  if @schedule.select{|s_job,s_attributes| s_attributes["dependencies"].include?(job) }.keys.empty?
   }
 end
+
+# Fix endpoints before calculating all the other jobs' LS, LF, and slack.
+@endpoints.each {|endpoint|
+  @schedule[endpoint]["late_finish"] = biggest_early_finish
+  @schedule[endpoint]["late_start"] = @schedule[endpoint]["late_finish"] - @schedule[endpoint]["duration"]
+  @schedule[endpoint]["slack"] = @schedule[endpoint]["late_start"] - @schedule[endpoint]["early_start"]
+}
 
 # Now loop again in reverse to compute the late finish, early finish, and slack times.
 @unfinished = @schedule.dup
