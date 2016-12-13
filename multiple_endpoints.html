@@ -6,7 +6,7 @@
   </head>
   <body>
     <div id="diagramContainer">
-      <div id='jobA' class='item' style='left: 200px; top: 0px;'>
+      <div id='jobA' class='item' style='left: 200px; top: 200px;'>
         <div class='act_banner'>jobA</div>
         <div class='act_row'>
           <div class='activity act_narrow'>18</div>
@@ -23,7 +23,7 @@
           <div class='activity act_narrow'>33</div>
         </div>
       </div>
-      <div id='jobB' class='item' style='left: 400px; top: 0px;'>
+      <div id='jobB' class='item' style='left: 400px; top: 200px;'>
         <div class='act_banner'>jobB</div>
         <div class='act_row'>
           <div class='activity act_narrow'>33</div>
@@ -40,7 +40,7 @@
           <div class='activity act_narrow'>9023</div>
         </div>
       </div>
-      <div id='jobC' class='item' style='left: 400px; top: 200px;'>
+      <div id='jobC' class='item' style='left: 400px; top: 400px;'>
         <div class='act_banner'>jobC</div>
         <div class='act_row'>
           <div class='activity act_narrow'>33</div>
@@ -57,7 +57,7 @@
           <div class='activity act_narrow'>9033</div>
         </div>
       </div>
-      <div id='jobD' class='item' style='left: 600px; top: 0px;'>
+      <div id='jobD' class='item' style='left: 600px; top: 200px;'>
         <div class='act_banner'>jobD</div>
         <div class='act_row'>
           <div class='activity act_narrow'>73</div>
@@ -74,7 +74,7 @@
           <div class='activity act_narrow'>9053</div>
         </div>
       </div>
-      <div id='jobE' class='item' style='left: 600px; top: 200px;'>
+      <div id='jobE' class='item' style='left: 600px; top: 400px;'>
         <div class='act_banner'>jobE</div>
         <div class='act_row'>
           <div class='activity act_narrow'>9033</div>
@@ -91,7 +91,7 @@
           <div class='activity act_narrow'>9058</div>
         </div>
       </div>
-      <div id='jobF' class='item' style='left: 800px; top: 200px;'>
+      <div id='jobF' class='item' style='left: 800px; top: 400px;'>
         <div class='act_banner'>jobF</div>
         <div class='act_row'>
           <div class='activity act_narrow'>9058</div>
@@ -108,7 +108,7 @@
           <div class='activity act_narrow'>9173</div>
         </div>
       </div>
-      <div id='jobG' class='item' style='left: 800px; top: 0px;'>
+      <div id='jobG' class='item' style='left: 800px; top: 200px;'>
         <div class='act_banner'>jobG</div>
         <div class='act_row'>
           <div class='activity act_narrow'>103</div>
@@ -125,7 +125,7 @@
           <div class='activity act_narrow'>9148</div>
         </div>
       </div>
-      <div id='jobH' class='item' style='left: 1000px; top: 0px;'>
+      <div id='jobH' class='item' style='left: 1000px; top: 200px;'>
         <div class='act_banner act_endpoint'>jobH</div>
         <div class='act_row'>
           <div class='activity act_narrow'>198</div>
@@ -142,7 +142,7 @@
           <div class='activity act_narrow'>9193</div>
         </div>
       </div>
-      <div id='jobI' class='item' style='left: 1000px; top: 200px;'>
+      <div id='jobI' class='item' style='left: 1000px; top: 400px;'>
         <div class='act_banner act_endpoint'>jobI</div>
         <div class='act_row'>
           <div class='activity act_narrow'>9173</div>
@@ -159,7 +159,7 @@
           <div class='activity act_narrow'>9193</div>
         </div>
       </div>
-      <div id='jobL' class='item' style='left: 800px; top: 400px;'>
+      <div id='jobL' class='item' style='left: 800px; top: 0px;'>
         <div class='act_banner act_endpoint'>jobL</div>
         <div class='act_row'>
           <div class='activity act_narrow'>103</div>
@@ -176,7 +176,7 @@
           <div class='activity act_narrow'>9193</div>
         </div>
       </div>
-      <div id='jobY' class='item' style='left: 0px; top: 0px;'>
+      <div id='jobY' class='item' style='left: 0px; top: 200px;'>
         <div class='act_banner act_startpoint'>jobY</div>
         <div class='act_row'>
           <div class='activity act_narrow'>0</div>
@@ -193,7 +193,7 @@
           <div class='activity act_narrow'>18</div>
         </div>
       </div>
-      <div id='jobX' class='item' style='left: 0px; top: 200px;'>
+      <div id='jobX' class='item' style='left: 0px; top: 400px;'>
         <div class='act_banner act_startpoint'>jobX</div>
         <div class='act_row'>
           <div class='activity act_narrow'>0</div>
@@ -214,7 +214,7 @@
     <script>
       jsPlumb.ready(function() {
         jsPlumb.setContainer("diagramContainer");
-        jsPlumb.Defaults.Connector = [ "Flowchart", { stub: [10, 10], midpoint: 0.0001, cornerRadius: 1.5 } ];
+        jsPlumb.Defaults.Connector = [ "Flowchart", { midpoint: 0.0001, cornerRadius: 1.5 } ];
         snapto('jobX', 'jobA', 'lightblue')
         snapto('jobY', 'jobA', 'darkblue')
         jsPlumb.draggable('jobA');

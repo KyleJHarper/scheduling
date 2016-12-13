@@ -73,12 +73,17 @@ while ! (@schedule.keys - @completed).empty?
   tops_used = []
   @current.each {|job, attributes|
     # -- Get the 'top' value(s) of the dependencies.  Attempt to use the lowest of the parents; 0 if none.
-    lowest_top = 0
-    attributes["dependencies"].each {|dependency| lowest_top = @schedule[dependency]["top"]  if @schedule[dependency].has_key?("top")}
-    # -- Now try to assign the lowest top value, incrementing if spaces are already taken.
-    while tops_used.include?(lowest_top) ; lowest_top = lowest_top + 1 ; end
-    @schedule[job]["top"] = lowest_top
-    tops_used.push(lowest_top)
+    nearest_top = 0
+    offset = 0
+    attributes["dependencies"].each {|dependency| nearest_top = @schedule[dependency]["top"]  if @schedule[dependency].has_key?("top")}
+    # -- Now try to assign the closest top value of the lowest_parent, shifting up and down as we're able.
+    while true
+      if !tops_used.include?(nearest_top + offset) ; nearest_top = nearest_top + offset ; break ; end
+      if !tops_used.include?(nearest_top - offset) ; nearest_top = nearest_top - offset ; break ; end
+      offset = offset + 1
+    end
+    @schedule[job]["top"] = nearest_top
+    tops_used.push(nearest_top)
     # -- Determine ES and EF.  We use the parents' EF values (if any) and take the highest of them for our ES value.
     early_start = 0
     attributes["dependencies"].each {|dep| early_start = @schedule[dep]["early_finish"]  if @schedule[dep].has_key?("early_finish") && early_start < @schedule[dep]["early_finish"] }
@@ -89,6 +94,9 @@ while ! (@schedule.keys - @completed).empty?
     @endpoints.push(job)  if @schedule.select{|s_job,s_attributes| s_attributes["dependencies"].include?(job) }.keys.empty?
   }
 end
+# We may have set negative top values for ease of reading.  Find the lowest top and shift everyone as needed.
+lowest_top_of_all = @schedule.min_by{|job,attributes| attributes["top"] }[1]["top"]
+@schedule.each {|job,attributes| attributes["top"] = attributes["top"] + lowest_top_of_all.abs}  if lowest_top_of_all < 0
 
 # Fix endpoints before calculating all the other jobs' LS, LF, and slack.
 @endpoints.each {|endpoint|
@@ -138,7 +146,7 @@ puts "    </div>"
 puts '    <script>'
 puts '      jsPlumb.ready(function() {'
 puts '        jsPlumb.setContainer("diagramContainer");'
-puts '        jsPlumb.Defaults.Connector = [ "Flowchart", { stub: [10, 10], midpoint: 0.0001, cornerRadius: 1.5 } ];'
+puts '        jsPlumb.Defaults.Connector = [ "Flowchart", { midpoint: 0.0001, cornerRadius: 1.5 } ];'
 @schedule.each {|job,attributes|
   attributes["dependencies"].each {|dependency|
     color = 'lightblue'
