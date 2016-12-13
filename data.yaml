@@ -4,6 +4,7 @@ schedule:
     duration: 15
     dependencies:
     - jobX
+    - jobY
     description: yar matey
   jobB:
     duration: 40
@@ -48,15 +49,19 @@ schedule:
     - jobF
 #    - jobH
     description: This becomes another endpoint
-  jobX:
-    duration: 15
-    dependencies: []
-    description: The real initial job to ensure hash order doesn't matter
   jobL:
     duration: 32
     dependencies:
       - jobD
     description: another job
+  jobY:
+    duration: 18
+    dependencies: []
+    description: The real initial job to ensure hash order doesn't matter
+  jobX:
+    duration: 15
+    dependencies: []
+    description: The real initial job to ensure hash order doesn't matter
 
   # -- Uncomment the following to create jobs that purposely fail validation (for testing).  Here's a sample hash explaining why.
   # "jobP" => {"duration" => 15,   "dependencies" => [],        "description" => ""},   # 1. Duplicate job name

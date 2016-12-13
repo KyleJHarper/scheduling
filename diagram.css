@@ -24,6 +24,12 @@
   padding-right: 4px;
   overflow-wrap: break-word;
 }
+.act_endpoint {
+  background: linear-gradient(#fbc97f, darkorange);
+}
+.act_startpoint {
+  background: linear-gradient(lightgreen, green);
+}
 .act_narrow {
   width: 30px;
   display: flex;

@@ -3,7 +3,7 @@ function snapto(a, b, color) {
   jsPlumb.connect({
     source:a,
     target:b,
-    anchor:["Perimeter", {shape: "Square", anchorCount:32}],
+    anchor:["Perimeter", {shape: "Square", anchorCount:8}],
     detachable: false,
     endpoint:[ "Rectangle", { width:1, height:1 } ],
     overlays:[
@@ -12,6 +12,4 @@ function snapto(a, b, color) {
     paintStyle:{ strokeWidth:2, stroke:color},
     hoverPaintStyle:{ stroke:"orange"},
   });
-  jsPlumb.draggable(a);
-  jsPlumb.draggable(b);
 }

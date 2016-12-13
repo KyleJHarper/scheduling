@@ -7,8 +7,12 @@ def printActivity(job, attributes)
   # Print out a div that will display a pert-style activity.
   crit = "";
   crit = " act_critcal" if attributes["slack"] == 0
+  endpoint = "";
+  endpoint = " act_endpoint" if @endpoints.include?(job)
+  startpoint = "";
+  startpoint = " act_startpoint" if attributes["dependencies"].empty?
   puts "      <div id='#{job}' class='item' style='left: #{attributes['left'] * 200}px; top: #{attributes['top'] * 200}px;'>"
-  puts "        <div class='act_banner'>#{job}</div>"
+  puts "        <div class='act_banner#{endpoint}#{startpoint}'>#{job}</div>"
   puts "        <div class='act_row'>"
   puts "          <div class='activity act_narrow'>#{attributes['early_start']}</div>"
   puts "          <div class='activity act_wide act_id'>&nbsp;</div>"
@@ -138,9 +142,10 @@ puts '        jsPlumb.Defaults.Connector = [ "Flowchart", { stub: [10, 10], midp
 @schedule.each {|job,attributes|
   attributes["dependencies"].each {|dependency|
     color = 'lightblue'
-    color = 'red' if attributes["slack"] == 0 && @schedule[dependency]["slack"] == 0
+    color = 'darkblue' if attributes["slack"] == 0 && @schedule[dependency]["slack"] == 0
     puts "        snapto('#{dependency}', '#{job}', '#{color}')"
   }
+  puts "        jsPlumb.draggable('#{job}');"
 }
 puts '      });'
 puts '    </script>'
