@@ -139,6 +139,21 @@ puts '    <link rel="stylesheet" type="text/css" href="diagram.css" media="scree
 puts "  </head>"
 # -- Start the body and insert the divs.
 puts "  <body>"
+puts '    <div id="legend">'
+puts '      <div class="legend_row legend_title">Legend</div>'
+puts '      <div class="legend_row">'
+puts '        <div class="act_banner act_startpoint legend_symbol">Start Point</div>'
+puts '        <div class="legend_description">Starting activities for the schedule.  These are the jobs that will execute first.</div>'
+puts '      </div>'
+puts '      <div class="legend_row">'
+puts '        <div class="act_banner legend_symbol">Middle Activity</div>'
+puts "        <div class='legend_description'>Regular activities that have dependencies and will execute as soon as they're met.</div>"
+puts '      </div>'
+puts '      <div class="legend_row">'
+puts '        <div class="act_banner act_endpoint legend_symbol">End Point</div>'
+puts "        <div class='legend_description'>Final activities for the schedule.  Nothing depends on them.  Schedule is done when they're all done.</div>"
+puts '      </div>'
+puts '    </div>'
 puts '    <div id="diagramContainer">'
 @schedule.each {|job,attributes| printActivity(job, attributes) }
 puts "    </div>"

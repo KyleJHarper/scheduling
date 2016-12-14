@@ -1,5 +1,33 @@
 #diagramContainer {
   position: relative;
+  clear: both;
+}
+#legend {
+  border-top: 1px dotted black;
+  border-bottom: 1px dotted black;
+  font-size: 0.8em;
+  margin-bottom: 20px;
+  width: 600px;
+  float: left;
+  clear: both;
+}
+.legend_title {
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+}
+.legend_row {
+  margin-bottom: 4px;
+  float: left;
+  width: 100%
+}
+.legend_symbol {
+  width: 131px;
+  float: left;
+}
+.legend_description {
+  width: 460;
+  float: left;
 }
 .item {
   position: absolute;
@@ -57,4 +85,7 @@
 }
 .act_critcal {
   color: red;
+}
+.bottom_spacer {
+  height: 200px;
 }
