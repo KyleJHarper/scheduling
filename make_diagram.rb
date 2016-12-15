@@ -11,7 +11,11 @@ def printActivity(job, attributes)
   endpoint = " act_endpoint" if @endpoints.include?(job)
   startpoint = "";
   startpoint = " act_startpoint" if attributes["dependencies"].empty?
-  puts "      <div id='#{job}' class='item' style='left: #{attributes['left'] * 200}px; top: #{attributes['top'] * 200}px;'>"
+  style = "left: #{attributes['left'] * 160}px; top: #{attributes['top'] * 160}px;"
+  style = "position: relative" if job == 'Sample'
+  legend_class = ""
+  legend_class = " legend_symbol" if job == 'Sample'
+  puts "      <div id='#{job}' class='item#{legend_class}' style='#{style}'>"
   puts "        <div class='act_banner#{endpoint}#{startpoint}'>#{job}</div>"
   puts "        <div class='act_row'>"
   puts "          <div class='activity act_narrow'>#{attributes['early_start']}</div>"
@@ -137,7 +141,7 @@ puts '    <script type="text/javascript" src="jsPlumb-2.2.6.js"></script>'
 puts '    <script type="text/javascript" src="diagram.js"></script>'
 puts '    <link rel="stylesheet" type="text/css" href="diagram.css" media="screen" />'
 puts "  </head>"
-# -- Start the body and insert the divs.
+# -- Start the body and insert the legend and the activities.
 puts "  <body>"
 puts '    <div id="legend">'
 puts '      <div class="legend_row legend_title">Legend</div>'
@@ -152,6 +156,43 @@ puts '      </div>'
 puts '      <div class="legend_row">'
 puts '        <div class="act_banner act_endpoint legend_symbol">End Point</div>'
 puts "        <div class='legend_description'>Final activities for the schedule.  Nothing depends on them.  Schedule is done when they're all done.</div>"
+puts '      </div>'
+puts '      <div class="legend_row">'
+puts '        <div class="legend_symbol">'
+puts '          <svg class="legend_svg">'
+puts '            <defs>'
+puts '              <marker id="dark_arrowhead" markerWidth="6" markerHeight="4" refX="0" refY="2" orient="auto">'
+puts '                <polygon points="0 0, 4 2, 0 4" fill="darkblue"/>'
+puts '              </marker>'
+puts '            </defs>'
+puts '            <line x1="0" y1="10" x2="110" y2="10" style="stroke:darkblue;stroke-width:4" marker-end="url(#dark_arrowhead)"/>'
+puts '          </svg>'
+puts '        </div>'
+puts "        <div class='legend_description'>Indicates the critical path(s) the schedule is taking.</div>"
+puts '      </div>'
+puts '      <div class="legend_row">'
+puts '        <div class="legend_symbol">'
+puts '          <svg class="legend_svg">'
+puts '            <defs>'
+puts '              <marker id="light_arrowhead" markerWidth="6" markerHeight="4" refX="0" refY="2" orient="auto">'
+puts '                <polygon points="0 0, 4 2, 0 4" fill="lightblue"/>'
+puts '              </marker>'
+puts '            </defs>'
+puts '            <line x1="0" y1="10" x2="110" y2="10" style="stroke:lightblue;stroke-width:4" marker-end="url(#light_arrowhead)"/>'
+puts '          </svg>'
+puts '        </div>'
+puts "        <div class='legend_description'>A path between jobs that has slack time.</div>"
+puts '      </div>'
+puts '      <div class="legend_row">'
+printActivity('Sample', {'early_start' => 'ES', 'late_start' => 'LS', 'slack' => 'Slack', 'early_finish' => 'EF', 'duration' => 'Duration', 'late_finish' => 'LF', 'dependencies' => ['junk'], 'top' => 0, 'left' => 0})
+puts "        <div class='legend_description'>"
+puts "          <span class='act_info'>ES (Early Start)</span> is the earliest the job can possibly start under ideal circumstances.<br />"
+puts "          <span class='act_info'>EF (Early Finish)</span> is the earliest the job can possibly finish under ideal cirumstances.<br />"
+puts "          <span class='act_info'>Slack</span> is the amount of time this job could be delayed, or run long, without delaying the whole schedule.<br />"
+puts "          <span class='act_info'>LS (Late Start)</span> is the latest the job should ever start under worst-case circumstances.<br />"
+puts "          <span class='act_info'>LF (Late Finish)</span> is the latest the job should ever complete under worst-case circumstances.<br />"
+puts "          <span class='act_info'>Duration</span> is how much time the job should take, in whatever unit (mins, hours, etc)."
+puts "        </div>"
 puts '      </div>'
 puts '    </div>'
 puts '    <div id="diagramContainer">'

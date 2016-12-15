@@ -21,13 +21,23 @@
   float: left;
   width: 100%
 }
+.legend_row:hover {
+  background-color: lightgreen;
+}
 .legend_symbol {
   width: 131px;
+  padding-left: 4px;
+  padding-right: 4px;
   float: left;
 }
 .legend_description {
   width: 460;
   float: left;
+}
+.legend_svg {
+  float: left;
+  width: 131px;
+  max-height: 20px;
 }
 .item {
   position: absolute;
@@ -52,6 +62,9 @@
   padding-right: 4px;
   overflow-wrap: break-word;
 }
+.act_banner:hover {
+  cursor: move;
+}
 .act_endpoint {
   background: linear-gradient(#fbc97f, darkorange);
 }
@@ -64,15 +77,24 @@
   align-items: center;
   justify-content: center;
 }
+.act_narrow:hover {
+  cursor: move;
+}
 .act_wide {
   width: 65px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+.act_wide:hover {
+  cursor: move;
+}
 .act_desc {
   width: 97px;
   min-height: 40px;
+}
+.act_desc:hover {
+  cursor: move;
 }
 .act_row {
   float:left;
@@ -85,6 +107,9 @@
 }
 .act_critcal {
   color: red;
+}
+.act_info {
+  color: firebrick;
 }
 .bottom_spacer {
   height: 200px;
